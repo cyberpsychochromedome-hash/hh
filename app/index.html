@@ -1,0 +1,34 @@
+<!doctype html><meta charset=utf-8><title>Wallpaper Studio</title>
+<style>
+body{margin:0;font:14px system-ui;background:#14141c;color:#eee;display:flex;height:100vh}
+nav{width:130px;background:#0d0d14;padding:12px}nav button{display:block;width:100%;margin-bottom:8px}
+main{flex:1;padding:16px;overflow:auto}
+button,input,select{background:#2a2a3a;color:#eee;border:1px solid #444;border-radius:6px;padding:5px 8px}
+input[type=color]{padding:0;height:28px;width:36px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,200px);gap:12px;margin-top:12px}
+.card{background:#1e1e2c;border-radius:8px;padding:10px}.hide{display:none}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px}
+#wrap{display:flex;gap:12px}#ly{width:190px}
+canvas,iframe{border:1px solid #444;background:#000;width:100%;max-width:900px;aspect-ratio:16/9}
+</style>
+<nav><button onclick=show('lib')>Library</button><button onclick=show('cre')>Creator</button></nav>
+<main>
+<section id=lib><div class=bar><button onclick="api.imp().then(load)">Import image / video / HTML</button>
+<button onclick=api.stop()>Stop wallpaper</button>
+<label><input type=checkbox id=bh checked onchange=api.behind(this.checked)> Behind desktop icons</label></div><div class=grid id=g></div></section>
+<section id=cre class=hide oninput=upd()>
+<div class=bar><select id=mode onchange=mm()><option value=art>Art (layers)</option><option value=live>Live (animated)</option><option value=interactive>Interactive (mouse)</option></select>
+<input id=nm value="My wallpaper"><button onclick=save()>Save to library</button></div>
+<div class=bar id=ao>
+<select id=tool><option>brush<option>eraser<option>line<option>rect<option>ellipse<option>text</select>
+color <input type=color id=bc value=#ff66cc> size <input type=range id=bs min=1 max=80 value=8>
+<label><input type=checkbox id=fill> fill</label>
+text <input id=tx value="Hello" size=10> font <input id=ft value=Arial size=8>
+bg <input type=color id=bg value=#000000>
+<button onclick=undo()>Undo</button><button onclick=clr()>Clear layer</button></div>
+<div class="bar hide" id=lo>colors <input type=color id=c1 value=#ff3c8e> <input type=color id=c2 value=#3c8eff>
+<select id=ps><option>waves<option>particles<option>stars</select> speed <input type=range id=sp min=1 max=10 value=4></div>
+<div id=wrap><canvas id=cv width=1280 height=720></canvas>
+<div id=ly-box><div class=bar><button onclick=addL()>+</button><button onclick=delL()>−</button><button onclick=mv(1)>↑</button><button onclick=mv(-1)>↓</button></div><div id=ly></div></div>
+<iframe id=pv class=hide></iframe></div></section>
+</main><script src=renderer.js></script>
